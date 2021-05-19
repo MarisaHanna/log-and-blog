@@ -1,0 +1,17 @@
+.navbar{
+    background: linear-gradient(#e66465, #9198e5);
+    font-size: 20px;
+}
+
+.fas {
+    color: rgb(130, 226, 226);
+    text-shadow: 1px 3px rgba(61, 65, 128, 0.954);
+    margin-left: 2%;
+}
+
+#menu{
+   margin-left: 5%;
+   
+}
+
+
