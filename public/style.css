@@ -1,3 +1,8 @@
+* {
+    box-sizing: border-box;
+   
+}
+
 .navbar{
     background: linear-gradient(#e66465, #9198e5);
     font-size: 20px;
@@ -14,4 +19,32 @@
    
 }
 
+.login{
+
+    
+}
+
+.container{
+    padding: 10%;
+    margin-top: 10%;
+    display: flex;
+    justify-content: space-evenly;
+    background: linear-gradient(#8de0e6, #387780);
+    border-radius: 55px 0px 55px 0px;
+    box-shadow: 3px 3px 3px 3px rgba(4, 53, 61, 0.954);
+}
+
+.password-in, .password-up{
+        margin-right: 1.5%;
+}
+
+button{
+    padding: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover{
+    background-color: rgb(187, 187, 187);
+}
 
