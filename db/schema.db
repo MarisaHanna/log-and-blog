@@ -1,0 +1,3 @@
+DROP DATABASE IF EXISTS logblog_DB;
+
+CREATE DATABASE logblog_DB;
