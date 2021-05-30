@@ -1,1 +1,7 @@
-<h1>HELLO!!</h1>
+<div class="home">
+   <h2>Home Page</h2> 
+</div>
+
+{{#each userPosts as |posts|}}
+{{> post posts}}
+{{/each}}

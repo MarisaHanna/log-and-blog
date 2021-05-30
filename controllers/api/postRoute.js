@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const {Posts, Users, Comments} = require('../../models');
-// const withAuth = require('../../utils/auth');
+const withAuth = require('../../utils/auth');
 
 router.get('/', async (req, res) => {
 
@@ -54,9 +54,8 @@ router.get('/:id', async (req, res) => {
             },
             attributes: [
                 'id',
-                'comment_id',
-                'post_id',
-                'user_id',
+                'title',
+                'render_text',
                 'created_at'
             ],
             include: [
@@ -68,9 +67,9 @@ router.get('/:id', async (req, res) => {
                     model: Comments,
                     attributes: [
                         'id',
-                        'comment_id',
-                        'post_id',
                         'user_id',
+                        'post_id',
+                        'comment_id',
                         'created_at'
                     ],
                     include: {
@@ -81,7 +80,9 @@ router.get('/:id', async (req, res) => {
             ]
         });
 
-        res.status(200).json(userData);
+       
+
+        res.json(userData);
 
     }catch (err) {
         console.log(err);
@@ -89,7 +90,7 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-router.post('/', async (req, res) => {
+router.post('/',withAuth, async (req, res) => {
 
     try{
 
@@ -108,19 +109,14 @@ router.post('/', async (req, res) => {
     }
 });
 
-router.put('/:id', async (req, res) => {
+router.put('/:id',withAuth, async (req, res) => {
 
     try{
 
-        const userData = await Posts.update({
+        const userData = await Posts.update(req.body,{
            
-            title: req.body.title,
-            render_text: req.body.render_text
-
-        },
-        {  
             where: {
-                id: req.params.ID
+                id: req.params.id
 
             }
         });
@@ -129,7 +125,7 @@ router.put('/:id', async (req, res) => {
                 res.status(400).json({message: 'Sorry, no posts found with this id' });
                 return;
             }
-
+        
             res.status(200).json(userData);
     
         }catch (err) {
@@ -139,14 +135,14 @@ router.put('/:id', async (req, res) => {
 
 });
 
-router.delete('/:id', async (req, res) => {
+router.delete('/:id', withAuth,async (req, res) => {
 
     try{
 
         const userData = await Posts.destroy({
         
              where: {
-                id: req.params.ID
+                id: req.params.id
 
             }
         });

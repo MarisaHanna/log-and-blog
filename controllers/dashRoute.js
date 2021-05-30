@@ -7,42 +7,39 @@ router.get('/', async (req, res) => {
         try{
 
             const userData = await Posts.findAll({
-                where: {
-                    user_id: req.session.user_id
-                },
+                
                 attributes: [
-                 'id',
-                 'title',
-                 'render_text',
-                 'created_at'
+                    'id',
+                    'title',
+                    'render_text',
+                    'created_at'
+    
                 ],
-                order: [['created_at', 'DESC']],
-                include: [
-                    {
-                        model: Users,
-                        attributes: ['username']
-                    },
-                    {
-                        model: Comments,
-                        attributes: [
-                            'id',
-                            'comment_id',
-                            'post_id',
-                            'user_id',
-                            'created_at'
-                        ],
-                        include: {
-                            model: Users,
-                            attributes: ['username']
-                        
-                        }
-                    }
-                ]
+    
+                order:[['created_at', 'DESC']],
+                include: [{
+                    model: Users,
+                    attributes:['username']
+            },
+            {
+                model: Comments,
+                attributes: [
+                    'id',
+                    'comment_id',
+                    'post_id',
+                    'user_id',
+                    'created_at'
+                ],
+                include: {
+                    model: Users,
+                    attributes:['username']
+                }
+            }]
             });
 
-            const userPosts = userData.map((posts) => posts.get({plain: true}));
-
-            res.render('dashboard', {
+            const userPosts = userData.map((post) => post.get({plain: true}));
+            console.log(userPosts);
+            res.render('dashboard', { 
                 userPosts, loggedIn: req.session.loggedIn
             });
     
@@ -52,13 +49,13 @@ router.get('/', async (req, res) => {
         }
 });
 
-router.get('/edit/:id', async (req, res) => {
+router.get('/edit/:id', withAuth, async (req, res) => {
 
-    try{
+   try{
 
         const userData = await Posts.findOne({
             where: {
-                id: req.params.id
+                id:req.params.id
             },
             attributes: [
                 'id',
@@ -92,11 +89,13 @@ router.get('/edit/:id', async (req, res) => {
             res.status(404).json({message:'No comment found with this id'});
             return
         }
+       
 
         const userPosts = userData.get({plain: true})
         res.render('edit', {
             userPosts, loggedIn: req.session.loggedIn
         });
+       
 
     }catch (err) {
         console.log(err);
@@ -105,8 +104,8 @@ router.get('/edit/:id', async (req, res) => {
     
 });
 
-router.get('/new', async (req, res) => {
-    res.render('new')
+router.get('/new', withAuth, (req, res) => {
+    res.render('new',{loggedIn: req.session.loggedIn})
 });
 
 

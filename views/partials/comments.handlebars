@@ -1,0 +1,15 @@
+{{!-- {{#if loggedIn}} --}}
+<div class="comments">
+    <h2>Comments</h2>
+  {{#each this}}
+  <section class="comment">
+    <div class="meta">
+      {{user.username}} on {{format_date created_at}}
+    </div>
+    <div class="text">
+      {{comment_id}}
+    </div>
+  </section>
+  {{/each}}
+</div>
+{{!-- {{/if}} --}}

@@ -1,10 +1,19 @@
 const router = require('express').Router();
 const { Posts, Comments, Users } = require('../models');
-// const withAuth = require('../utils/auth');
+const withAuth = require('../utils/auth');
+
+
+router.get('/login', (req, res) => {
+    res.render('login');
+});
+
+router.get('/alert', (req, res) => {
+    res.render('alert');
+});
+
 
 router.get('/', async (req, res) => {
-//     res.render('login');
-// });
+
     try{
         const postData = await Posts.findAll({
             attributes:[
@@ -32,10 +41,11 @@ router.get('/', async (req, res) => {
          });
 
         const userPosts = postData.map((posts) => posts.get({plain: true}));
-
+         console.log(userPosts);
         res.render('home', {
             userPosts, loggedIn: req.session.loggedIn
         });
+       
 
     }catch (err) {
         res.status(500).json(err);
@@ -43,18 +53,13 @@ router.get('/', async (req, res) => {
    
 });
 
-router.get('/login', (req, res) => {
-    // if (req.session.loggedIn) {
-    //     res.redirect('/');
-    //     return
-    // }
-    res.render('login');
-});
 
-
-router.get('/posts/:id', async (req, res) => {
+router.get('/posts/:id', withAuth, async (req, res) => {
     try{
-        const onePost = await Posts.findByPk(req.params.id, {
+        const onePost = await Posts.findOne({
+            where:{
+                id: req.params.id 
+            },    
             attributes: [
                 'id',
                 'title', 
@@ -64,7 +69,7 @@ router.get('/posts/:id', async (req, res) => {
             include: [
                 {
                     model: Comments,
-                    attributes: ['id', 'comment_id', 'post_id', 'user_id', 'created_at'],
+                    attributes: ['id', 'user_id', 'post_id', 'comment_id', 'created_at'],
                     include: {
                         model: Users,
                         attributes:['username']
@@ -77,8 +82,10 @@ router.get('/posts/:id', async (req, res) => {
                 }
             ]
         })
-        const single = onePost.get({plain: true});
-        res.render('single', {single, loggedIn: req.session.loggedIn})
+        const post = onePost.get({plain: true});
+        res.render('single', { post, loggedIn: req.session.loggedIn
+        });
+       
     
     }catch (err) {
         res.status(500).json(err)
@@ -86,10 +93,12 @@ router.get('/posts/:id', async (req, res) => {
         
 });
  
+router.get('/logout', async (req, res) => {
 
-
-
-
-
+        req.session.destroy(() => {
+            res.render('logout');
+        });
+    
+});
 
 module.exports = router;

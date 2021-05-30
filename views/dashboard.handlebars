@@ -1,0 +1,20 @@
+ <div class="mb-5 pt-3">
+     <div class='edit'>
+        <h2 class="dashboard">Your Dashboard</h2>
+
+        <a class='create-post'href="/dashboard/new">Create A New Post</a>
+        
+      </div>  
+{{#if userPosts.length}}
+    </div>
+
+    {{#each userPosts as |posts|}}
+        {{> post posts}}
+        
+    
+    {{/each}}
+
+{{else}}
+<h1 class="pb-4 has-text-centered is-italic">Sorry, no posts yet!</h1>
+
+{{/if}}

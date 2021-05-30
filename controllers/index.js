@@ -9,4 +9,8 @@ router.use('/', homeRoute);
 router.use('/api', apiRoutes);
 router.use('/dashboard', dashRoute);
 
+router.use((req, res) => {
+    res.status(404).end();
+  });
+
 module.exports = router;
