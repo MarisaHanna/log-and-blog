@@ -10,7 +10,7 @@ const signIn = async (event) => {
         body: JSON.stringify({ username, password }),
         headers: { 'Content-Type': 'application/json' },
       });
-  
+      console.log(response);
       if (response.ok) {
         alert('New User has been created!')
         // document.location.replace('/');
@@ -32,7 +32,7 @@ const signIn = async (event) => {
         body: JSON.stringify({ username, password }),
         headers: { 'Content-Type': 'application/json' },
       });
-  
+        
       if (response.ok) {  
         document.location.replace('/');
       } else {
