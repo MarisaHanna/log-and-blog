@@ -3,7 +3,7 @@
 
 #       Description
 
-        This application was created using the Model-View-Controller (MVC) pattern. Users are required to either login or create a username and password in order to comment, edit, and post articles to the blog page. The users' data is then persistently stored to a Mysql database. Handlebars.js was used for the templating language, Sequelize for the ORM, and express-sessions for authentication.
+This application was created using the Model-View-Controller (MVC) pattern. Users are required to either login or create a username and password in order to comment, edit, and post articles to the blog page. The users' data is then persistently stored to a Mysql database. Handlebars.js was used for the templating language, Sequelize for the ORM, and express-sessions for authentication.
 
 
 
