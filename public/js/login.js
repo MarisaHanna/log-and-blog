@@ -13,7 +13,7 @@ const signIn = async (event) => {
       console.log(response);
       if (response.ok) {
         alert('New User has been created!')
-        // document.location.replace('/');
+        document.location.replace('/');
       } else {
         alert('Ooops! Something went wrong!');
       }
